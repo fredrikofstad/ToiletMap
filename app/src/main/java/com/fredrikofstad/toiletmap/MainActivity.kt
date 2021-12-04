@@ -1,13 +1,19 @@
 package com.fredrikofstad.toiletmap
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fredrikofstad.toiletmap.models.ToiletInfo
 import com.fredrikofstad.toiletmap.models.UserMap
 import kotlinx.android.synthetic.main.activity_main.*
 
+const val USER_MAP = "USER_MAP"
+private const val TAG = "MainActivity"
+
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -17,7 +23,17 @@ class MainActivity : AppCompatActivity() {
         //Set layout on RV
         rvMaps.layoutManager = LinearLayoutManager(this)
         //set adapter on RV
-        rvMaps.adapter = MapsAdapter(this, userMaps)
+        rvMaps.adapter = MapsAdapter(this, userMaps, object: MapsAdapter.OnClickListener{
+            override fun onItemClick(position: Int) {
+                Log.i(TAG, "tapped on $position")
+                val intent = Intent(this@MainActivity, MapActivity::class.java)
+                intent.putExtra(USER_MAP, userMaps[position])
+                startActivity(intent)
+            }
+
+        })
+
+
     }
 
     private fun testData(): List<UserMap> {

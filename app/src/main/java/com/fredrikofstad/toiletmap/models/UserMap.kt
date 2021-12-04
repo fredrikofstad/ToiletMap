@@ -1,4 +1,5 @@
 package com.fredrikofstad.toiletmap.models
 
-data class UserMap(val title: String, val places: List<ToiletInfo>) {
-}
+import java.io.Serializable
+
+data class UserMap(val title: String, val toilets: List<ToiletInfo>) : Serializable
